@@ -1,19 +1,52 @@
-# Projet C++ : Ratp mapper
+# City Mapper
 
-Pour pouvoir compiler le programme, il suffit d'utiliser le fichier makefile qui est inclus dans le dossier actuel comme suit : 
+## Introduction
+This repository contains the code for the City Mapper project.
+City Mapper is a project that aims to implement the djikstra algorithm using C++ STL structures to solve the problem of finding the shortest path between two stations in a city.
+To do so, we have to model the city as a graph, where each node is a station and each edge is a line.
 
-- Ouvrez un terminal 
-- Assurez-vous que le logiciel Make est installé Sinon l'installer en utilisant : sudo apt-get install make
-- Entrez "make" dans le terminal
+## Data
+This project uses two files:
+* `s.csv`: contains the locations of the stations, their names and the lines they are on.
+* `c.csv`: contains the transfer time between two stations.
+
+# Usage 
+The program is implemented in the `main` function.
+It takes as arguments: 
+* `s.csv`: the path to the file containing the stations.
+* `c.csv`: the path to the file containing the transfers.
+
+First, use the makefile that is provided to compile the program.
+
+Once the program is compiled, you can run it with the following command:
+```bash
+./main ../data/s.csv ../data/c.csv
+```
+
+You will see the following output:
+```bash
+Bienvenue dans RATP mapper !
+
+<Nouvelle recherche>
+[1]Recherche d'itineraire par ID
+[2]Quitter le programme
+Saisir votre choix (1, 2 ) et appuyer sur <ENTREE>:
+1
+```
+
+## Improvements
+Several improvements can be made to the program, including:
+* Adding a menu to choose between different algorithms.
+* Adding a menu to choose between different data files.
+* Adding a menu to choose between different data formats.
+* Adding a menu to choose between different data structures.
+* Adding an GUI.
 
 
-Lorsque la compilation sera terminée, vous disposerez du fichier d'exécution sous le nom de "main".
 
-Pour exécuter et utiliser le programme, vous pouvez procéder comme suit : 
 
-- Ouvrez un terminal dans le meme dossier 
-- Tappez : ./main chemin_vers_stations chemin_vers_connections
 
-chemin_vers_stations : est le chemin relatif ou absolu vers le fichier csv des stations (ici data/s.csv), le chemin doit contenir aussi le nom du fichier
-chemin_vers_connections : est le chemin relatif ou absolu vers le fichier csv des connections (ici data/c.csv) 
+
+
+
   
