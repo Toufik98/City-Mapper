@@ -1,0 +1,6 @@
+# Ignore all artefacts from the build
++*.o
++*.a
++*.so
++*.lo
++*.la

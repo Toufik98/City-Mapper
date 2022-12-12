@@ -1,7 +1,7 @@
-/*Inclusion du fichier generic pour le parse des fichiers*/
+
 #include "Generic_station_parser.hpp"
 #include "station_parser.h"
-/*Inclusion des biblioteque SDL*/
+
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -10,49 +10,48 @@
 
 
 void Station_parser::read_stations(const std::string & _filename){
-    /*  Fonction qui permet de lire le fichier S.csv et de stoquer les informations qui sont contenu dans un unordered map*/
-    //@param _filename : Le nom du fichier à lire
+    
+    //@param _filename : 
 
-    travel::Station S;                                  /*Déclration d'une structure Station*/
+    travel::Station S;                                  
 
-    std::fstream file(_filename);                       /*Creation de l'object file et ouverture du fichier*/
+    std::fstream file(_filename);                       
     std::string line= "";
 
-    /*Si on a du mal à lire le fichier active une exeption*/
+    
     if ( file.fail() ) {
 		throw (ERROR_READ_FILE);
     } else {
-        std::getline(file, line);                      /*Recuperation du header*/
-        while (file.good()) {                          /*Tant que tout est bon*/
-            /*Recuperation des donnnées sur une ligne séparer par des virgules*/
+        std::getline(file, line);                      
+        while (file.good()) {                          
+            
             std::getline(file, S.name, ',');
-            // Recuperation de l'ID en STR
+            
             std::getline(file, line, ',');
             std::getline(file, S.line_id, ',');
             std::getline(file, S.address, ',');
             std::getline(file, S.line_name);
 
-            // Conversion de L'ID en entier
+            
             uint64_t ID = std::strtoul(line.c_str(), NULL, 10);
-            // L'insertion de L'ID comme étant la clé et La station comme étant la valeur de la clé 
+            
             this->stations_hashmap.insert( { ID, S} );
         }
     }
-    // Fermeture du fichier
+    
     file.close();
 }
 
-// Setter pour pouvoir lire les stations
+
 void Station_parser::set_stations(const std::string & _filename){
     read_stations(_filename);
 }
 
 
 void Station_parser::read_connections(const std::string & _filename) {
-    /*Fonction qui permet de lire le fichier C.csv et de stocker les info dans une unordered map tel que les clés sont les ID des stations de  départ 
-    et les valeurs des clés sont des unordered map tel que les cles sont les Id des stations d'arrivés et les valeurs le temps  associées */
+    
 
-    //@param _filename : Le nom fichier à lire le fichier
+    //@param _filename : file to read
 
     std::fstream file(_filename);								
     std::string line = "";
@@ -63,17 +62,17 @@ void Station_parser::read_connections(const std::string & _filename) {
     } else {
         std::getline(file, line);
         while (!file.eof()) {
-            //Recuperation des ID des stations d'arrivés/ départs et le cout de transfert
-            std::getline(file, Station_begin, ','); 			// station 1
-            std::getline(file, Station_end, ','); 				// station 2
-            std::getline(file, Time_str); 						// Temps de transfert entre les deux stations
+            
+            std::getline(file, Station_begin, ','); 			
+            std::getline(file, Station_end, ','); 				
+            std::getline(file, Time_str); 						
 
-			//conversion de chaînes de caractères en entier signée 
+			
             uint64_t station_begin_id = std::strtoul(Station_begin.c_str(), NULL, 10);
             uint64_t station_end_id = std::strtoul(Station_end.c_str(), NULL, 10);
             uint64_t time = std::strtoul(Time_str.c_str(), NULL, 10);
 			
-            //Remplissage de l'unordered map 
+            
             this->connections_hashmap[station_begin_id][station_end_id] = time;			
         }
 
@@ -81,7 +80,7 @@ void Station_parser::read_connections(const std::string & _filename) {
     file.close();												// Fermeture du fichier
 }
 
-/*Setter pour la read connections*/
+
 void Station_parser::set_connections(const std::string& _filename){
     read_connections(_filename);
 }
