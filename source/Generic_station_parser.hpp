@@ -20,8 +20,8 @@ namespace travel{
   };
 
   class Generic_station_parser{
-  public:
-
+  private:
+    // Unordered map to store the stations : key is the station id and value is the station
     const std::unordered_map<uint64_t, Station>& get_stations_hashmap() const{
       return this->stations_hashmap;
     }
@@ -31,7 +31,13 @@ namespace travel{
 
   protected:
     std::unordered_map<uint64_t, Station> stations_hashmap;
-  };
+
+  public:
+    // Getter for stations hashmap
+    const std::unordered_map<uint64_t, Station> &get_stations() const
+    {
+      return this->get_stations_hashmap();
+    };
 }
 
 #endif
