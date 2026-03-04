@@ -1,0 +1,15 @@
+[requires]
+drogon/1.9.3
+gtest/1.14.0
+spdlog/1.12.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+drogon/*:with_mysql=False
+drogon/*:with_postgres=False
+drogon/*:with_sqlite=False
+drogon/*:with_redis=False
+drogon/*:with_brotli=True

@@ -1,0 +1,261 @@
+@use '@angular/material' as mat;
+
+// ============================================================
+// City-Mapper Paris Metro Theme — Material 3
+// ============================================================
+
+// Light theme
+$city-mapper-light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$blue-palette,
+    tertiary: mat.$yellow-palette,
+  ),
+  typography: (
+    brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+    plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+// Dark theme
+$city-mapper-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$blue-palette,
+    tertiary: mat.$yellow-palette,
+  ),
+  typography: (
+    brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+    plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+// Apply Material 3 light theme by default
+html {
+  @include mat.all-component-themes($city-mapper-light-theme);
+  @include mat.typography-hierarchy($city-mapper-light-theme);
+}
+
+// Dark theme override
+html.dark-theme {
+  @include mat.all-component-colors($city-mapper-dark-theme);
+}
+
+// ============================================================
+// CSS Custom Properties — Paris Metro Palette
+// ============================================================
+:root {
+  --cm-primary: #003B8E;
+  --cm-primary-light: #1565C0;
+  --cm-primary-dark: #002A6B;
+  --cm-secondary: #00A86B;
+  --cm-secondary-light: #33B889;
+  --cm-tertiary: #FFB800;
+  --cm-error: #E63946;
+  --cm-surface: #FAFAFA;
+  --cm-surface-variant: #F0F0F0;
+  --cm-on-surface: #1D1D1D;
+  --cm-on-surface-variant: #49454F;
+  --cm-outline: #79747E;
+  --cm-outline-variant: #CAC4D0;
+
+  // Elevation shadows
+  --cm-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --cm-shadow-2: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+  --cm-shadow-3: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.10);
+
+  // Spacing scale
+  --cm-spacing-xs: 4px;
+  --cm-spacing-sm: 8px;
+  --cm-spacing-md: 16px;
+  --cm-spacing-lg: 24px;
+  --cm-spacing-xl: 32px;
+  --cm-spacing-2xl: 48px;
+
+  // Border radius
+  --cm-radius-sm: 8px;
+  --cm-radius-md: 12px;
+  --cm-radius-lg: 16px;
+  --cm-radius-full: 9999px;
+
+  // Transitions
+  --cm-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cm-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cm-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Z-index layers
+  --cm-z-map: 1;
+  --cm-z-panel: 100;
+  --cm-z-overlay: 200;
+  --cm-z-modal: 300;
+  --cm-z-toast: 400;
+}
+
+// ============================================================
+// Dark Mode CSS Custom Properties
+// ============================================================
+html.dark-theme {
+  --cm-primary: #5B9BD5;
+  --cm-primary-light: #82B1E0;
+  --cm-primary-dark: #3A7ABF;
+  --cm-secondary: #4ECB8F;
+  --cm-secondary-light: #72D6A6;
+  --cm-tertiary: #FFCA40;
+  --cm-error: #FF6B7A;
+  --cm-surface: #1A1A2E;
+  --cm-surface-variant: #252540;
+  --cm-on-surface: #E8E8F0;
+  --cm-on-surface-variant: #B0B0C0;
+  --cm-outline: #6B6B80;
+  --cm-outline-variant: #404060;
+
+  --cm-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --cm-shadow-2: 0 3px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --cm-shadow-3: 0 10px 20px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+// ============================================================
+// Global Styles
+// ============================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--cm-surface);
+  color: var(--cm-on-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ============================================================
+// Leaflet Overrides
+// ============================================================
+@import 'leaflet/dist/leaflet.css';
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: var(--cm-z-map);
+  font-family: inherit;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: var(--cm-shadow-2) !important;
+
+  a {
+    background-color: white !important;
+    color: var(--cm-on-surface) !important;
+    border: none !important;
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 18px !important;
+    border-radius: var(--cm-radius-sm) !important;
+
+    &:hover {
+      background-color: var(--cm-surface-variant) !important;
+    }
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--cm-radius-md) !important;
+  box-shadow: var(--cm-shadow-2) !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: var(--cm-spacing-md) !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+// ============================================================
+// Material Overrides
+// ============================================================
+.mat-mdc-snack-bar-container {
+  &.error-snackbar {
+    --mdc-snackbar-container-color: var(--cm-error);
+    --mdc-snackbar-supporting-text-color: white;
+  }
+
+  &.success-snackbar {
+    --mdc-snackbar-container-color: var(--cm-secondary);
+    --mdc-snackbar-supporting-text-color: white;
+  }
+}
+
+// ============================================================
+// Utility Classes
+// ============================================================
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// ============================================================
+// Responsive Breakpoints
+// ============================================================
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-desktop: 1280px;
+
+// ============================================================
+// Dark Mode Overrides
+// ============================================================
+html.dark-theme {
+  .leaflet-control-zoom a {
+    background-color: var(--cm-surface-variant) !important;
+    color: var(--cm-on-surface) !important;
+
+    &:hover {
+      background-color: var(--cm-outline-variant) !important;
+    }
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--cm-surface-variant) !important;
+    color: var(--cm-on-surface) !important;
+  }
+
+  .cm-legend-control {
+    background: var(--cm-surface-variant) !important;
+    color: var(--cm-on-surface) !important;
+  }
+
+  // Darken map tiles
+  .leaflet-tile-pane {
+    filter: brightness(0.7) contrast(1.1) saturate(0.8);
+  }
+}

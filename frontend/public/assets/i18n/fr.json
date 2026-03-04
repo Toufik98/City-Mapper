@@ -1,0 +1,83 @@
+{
+  "APP": {
+    "TITLE": "City Mapper — Métro Paris",
+    "SUBTITLE": "Trouvez l'itinéraire le plus rapide"
+  },
+  "SEARCH": {
+    "DEPARTURE": "Station de départ",
+    "ARRIVAL": "Station d'arrivée",
+    "DEPARTURE_PLACEHOLDER": "Rechercher une station de départ...",
+    "ARRIVAL_PLACEHOLDER": "Rechercher une station d'arrivée...",
+    "FIND_ROUTE": "Rechercher",
+    "COMPUTING": "Calcul de l'itinéraire...",
+    "SWAP": "Inverser départ et arrivée",
+    "VOICE_INPUT": "Recherche vocale",
+    "VOICE_LISTENING": "Écoute en cours...",
+    "VOICE_NOT_SUPPORTED": "La recherche vocale n'est pas supportée par votre navigateur",
+    "CLEAR": "Effacer",
+    "NO_RESULTS": "Aucune station trouvée",
+    "MIN_CHARS": "Tapez au moins 2 caractères",
+    "RECENT": "Recherches récentes",
+    "CLEAR_HISTORY": "Effacer l'historique"
+  },
+  "ROUTE": {
+    "TITLE": "Détails de l'itinéraire",
+    "TOTAL_DURATION": "Durée totale",
+    "TRANSFERS": "correspondance(s)",
+    "STATIONS": "station(s)",
+    "ALGORITHM": "Algorithme",
+    "COMPUTATION_TIME": "Calculé en",
+    "MS": "ms",
+    "NO_ROUTE": "Aucun itinéraire trouvé entre ces stations",
+    "SEGMENT": {
+      "RIDE": "Ligne {{line}} : {{from}} → {{to}}",
+      "TRANSFER": "Correspondance vers la ligne {{line}}",
+      "WALK": "Marcher jusqu'à {{station}}",
+      "DURATION": "{{minutes}} min {{seconds}} s"
+    },
+    "SUMMARY": {
+      "FASTEST": "Le plus rapide",
+      "FEWEST_TRANSFERS": "Le moins de correspondances"
+    }
+  },
+  "MAP": {
+    "LEGEND": "Lignes de métro",
+    "ZOOM_IN": "Zoomer",
+    "ZOOM_OUT": "Dézoomer",
+    "CENTER": "Centrer sur Paris"
+  },
+  "SETTINGS": {
+    "TITLE": "Paramètres",
+    "LANGUAGE": "Langue",
+    "ACCESSIBILITY": "Accessibilité",
+    "COLORBLIND_MODE": "Mode daltonien",
+    "COLORBLIND_DESCRIPTION": "Utilise des couleurs à fort contraste et des motifs de lignes",
+    "DARK_MODE": "Mode sombre",
+    "DARK_MODE_DESCRIPTION": "Basculer vers le thème sombre",
+    "ALGORITHM": {
+      "TITLE": "Algorithme",
+      "DIJKSTRA": "Dijkstra",
+      "A_STAR": "A* (recommandé)",
+      "CONTRACTION_HIERARCHIES": "Contraction Hierarchies",
+      "PARETO": "Multi-critères (Pareto)"
+    }
+  },
+  "ERRORS": {
+    "NETWORK": "Erreur réseau. Vérifiez votre connexion.",
+    "SERVER": "Erreur serveur. Veuillez réessayer plus tard.",
+    "NOT_FOUND": "Station introuvable.",
+    "UNKNOWN": "Une erreur inattendue s'est produite.",
+    "PAGE_NOT_FOUND": "Cette station n'existe pas",
+    "PAGE_NOT_FOUND_HINT": "La page que vous cherchez semble avoir chang\u00e9 de ligne.",
+    "BACK_TO_MAP": "Retour \u00e0 la carte"
+  },
+  "SHARE": {
+    "SHARE_ROUTE": "Partager l'itin\u00e9raire",
+    "COPIED": "Lien de l'itin\u00e9raire copi\u00e9 !"
+  },
+  "DURATION": {
+    "HOURS": "h",
+    "MINUTES": "min",
+    "SECONDS": "s"
+  }
+}

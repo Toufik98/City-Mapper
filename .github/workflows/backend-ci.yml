@@ -1,0 +1,63 @@
+# ============================================================
+# City-Mapper Backend CI — Build, Test, Lint
+# ============================================================
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+    paths: [backend/**, data/**]
+  pull_request:
+    branches: [main]
+    paths: [backend/**, data/**]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [gcc-13, clang-17]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake python3-pip
+          if [ "${{ matrix.compiler }}" = "clang-17" ]; then
+            sudo apt-get install -y clang-17
+          fi
+
+      - name: Install Conan
+        run: pip3 install conan && conan profile detect
+
+      - name: Cache Conan packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.conan2
+          key: conan-${{ matrix.compiler }}-${{ hashFiles('backend/conanfile.txt') }}
+          restore-keys: conan-${{ matrix.compiler }}-
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          conan install . --output-folder=build --build=missing \
+            -s build_type=Release -s compiler.cppstd=20
+
+      - name: Configure CMake
+        working-directory: backend
+        run: |
+          cd build
+          cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake \
+            -DBUILD_TESTS=ON
+
+      - name: Build
+        working-directory: backend/build
+        run: cmake --build . --parallel $(nproc)
+
+      - name: Run tests
+        working-directory: backend/build
+        run: ctest --output-on-failure --parallel $(nproc)

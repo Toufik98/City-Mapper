@@ -1,0 +1,83 @@
+{
+  "APP": {
+    "TITLE": "City Mapper — Paris Metro",
+    "SUBTITLE": "Find the fastest route"
+  },
+  "SEARCH": {
+    "DEPARTURE": "Departure station",
+    "ARRIVAL": "Arrival station",
+    "DEPARTURE_PLACEHOLDER": "Search for a departure station...",
+    "ARRIVAL_PLACEHOLDER": "Search for an arrival station...",
+    "FIND_ROUTE": "Find Route",
+    "COMPUTING": "Computing route...",
+    "SWAP": "Swap departure and arrival",
+    "VOICE_INPUT": "Voice search",
+    "VOICE_LISTENING": "Listening...",
+    "VOICE_NOT_SUPPORTED": "Voice search is not supported in your browser",
+    "CLEAR": "Clear",
+    "NO_RESULTS": "No stations found",
+    "MIN_CHARS": "Type at least 2 characters",
+    "RECENT": "Recent searches",
+    "CLEAR_HISTORY": "Clear history"
+  },
+  "ROUTE": {
+    "TITLE": "Route Details",
+    "TOTAL_DURATION": "Total duration",
+    "TRANSFERS": "transfer(s)",
+    "STATIONS": "station(s)",
+    "ALGORITHM": "Algorithm",
+    "COMPUTATION_TIME": "Computed in",
+    "MS": "ms",
+    "NO_ROUTE": "No route found between these stations",
+    "SEGMENT": {
+      "RIDE": "Line {{line}}: {{from}} → {{to}}",
+      "TRANSFER": "Transfer to Line {{line}}",
+      "WALK": "Walk to {{station}}",
+      "DURATION": "{{minutes}} min {{seconds}} s"
+    },
+    "SUMMARY": {
+      "FASTEST": "Fastest",
+      "FEWEST_TRANSFERS": "Fewest transfers"
+    }
+  },
+  "MAP": {
+    "LEGEND": "Metro Lines",
+    "ZOOM_IN": "Zoom in",
+    "ZOOM_OUT": "Zoom out",
+    "CENTER": "Center on Paris"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "LANGUAGE": "Language",
+    "ACCESSIBILITY": "Accessibility",
+    "COLORBLIND_MODE": "Colorblind mode",
+    "COLORBLIND_DESCRIPTION": "Uses high-contrast colors and line patterns",
+    "DARK_MODE": "Dark mode",
+    "DARK_MODE_DESCRIPTION": "Switch to dark color scheme",
+    "ALGORITHM": {
+      "TITLE": "Algorithm",
+      "DIJKSTRA": "Dijkstra",
+      "A_STAR": "A* (recommended)",
+      "CONTRACTION_HIERARCHIES": "Contraction Hierarchies",
+      "PARETO": "Multi-criteria (Pareto)"
+    }
+  },
+  "ERRORS": {
+    "NETWORK": "Network error. Please check your connection.",
+    "SERVER": "Server error. Please try again later.",
+    "NOT_FOUND": "Station not found.",
+    "UNKNOWN": "An unexpected error occurred.",
+    "PAGE_NOT_FOUND": "This station doesn't exist",
+    "PAGE_NOT_FOUND_HINT": "The page you're looking for seems to have switched lines.",
+    "BACK_TO_MAP": "Back to the map"
+  },
+  "SHARE": {
+    "SHARE_ROUTE": "Share route",
+    "COPIED": "Route link copied to clipboard!"
+  },
+  "DURATION": {
+    "HOURS": "h",
+    "MINUTES": "min",
+    "SECONDS": "s"
+  }
+}

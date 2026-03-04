@@ -1,0 +1,46 @@
+<div class="app-layout">
+  <!-- Top toolbar -->
+  <mat-toolbar class="app-toolbar">
+    <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-icon class="toolbar-logo">directions_subway</mat-icon>
+    <span class="toolbar-title">{{ 'APP.TITLE' | translate }}</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button (click)="toggleDarkMode()" [matTooltip]="'SETTINGS.DARK_MODE' | translate" aria-label="Toggle dark mode">
+      <mat-icon>{{ darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+    <button mat-icon-button (click)="toggleSettings()" aria-label="Settings">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <!-- Main content area -->
+  <div class="app-content">
+    <!-- Map (always visible, full-screen behind panels) -->
+    <div class="map-area">
+      <router-outlet />
+    </div>
+
+    <!-- Floating search panel -->
+    @if (sidebarOpen()) {
+      <div class="search-overlay">
+        <app-search-panel />
+
+        <!-- Route details (shown after computation) -->
+        @if (hasRoute()) {
+          <app-route-details />
+        }
+      </div>
+    }
+
+    <!-- Settings panel (slide from right) -->
+    @if (showSettings) {
+      <div class="settings-overlay" (click)="toggleSettings()">
+        <div class="settings-container" (click)="$event.stopPropagation()">
+          <app-settings-panel />
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,30 @@
+# ============================================================
+# City-Mapper — Docker Compose Development Overrides
+# ============================================================
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ============================================================
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: builder  # Use the build stage for debugging
+    environment:
+      - DATA_PATH=/app/data/csv
+      - CACHE_SIZE=1000
+      - THREAD_COUNT=2
+    volumes:
+      - ./data:/app/data/csv:ro
+      - ./backend/src:/build/src:ro   # Hot-reload requires rebuild
+    ports:
+      - "8080:8080"  # Direct access for debugging
+
+  frontend:
+    build:
+      context: ./frontend
+      target: build   # Use dev server instead of nginx
+    volumes:
+      - ./frontend/src:/app/src:ro    # Angular hot-reload
+    ports:
+      - "4200:4200"  # Angular dev server
+    command: ["npm", "start", "--", "--host", "0.0.0.0"]

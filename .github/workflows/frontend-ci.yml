@@ -1,0 +1,42 @@
+# ============================================================
+# City-Mapper Frontend CI — Build, Test, Lint
+# ============================================================
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+    paths: [frontend/**]
+  pull_request:
+    branches: [main]
+    paths: [frontend/**]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Unit tests
+        working-directory: frontend
+        run: npm run test -- --no-watch --code-coverage
+
+      - name: Production build
+        working-directory: frontend
+        run: npm run build -- --configuration production
