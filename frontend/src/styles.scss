@@ -5,36 +5,28 @@
 // ============================================================
 
 // Light theme
-$city-mapper-light-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$blue-palette,
-    tertiary: mat.$yellow-palette,
-  ),
-  typography: (
-    brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
-    plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
-  ),
-  density: (
-    scale: 0,
-  ),
-));
+$city-mapper-light-theme: mat.define-theme((color: (theme-type: light,
+        primary: mat.$blue-palette,
+        tertiary: mat.$yellow-palette,
+      ),
+      typography: (brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+        plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+      ),
+      density: (scale: 0,
+      ),
+    ));
 
 // Dark theme
-$city-mapper-dark-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-    primary: mat.$blue-palette,
-    tertiary: mat.$yellow-palette,
-  ),
-  typography: (
-    brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
-    plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
-  ),
-  density: (
-    scale: 0,
-  ),
-));
+$city-mapper-dark-theme: mat.define-theme((color: (theme-type: dark,
+        primary: mat.$blue-palette,
+        tertiary: mat.$yellow-palette,
+      ),
+      typography: (brand-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+        plain-family: '"Inter", "Segoe UI", Roboto, sans-serif',
+      ),
+      density: (scale: 0,
+      ),
+    ));
 
 // Apply Material 3 light theme by default
 html {
@@ -88,6 +80,17 @@ html.dark-theme {
   --cm-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --cm-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --cm-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Glassmorphism and Backdrop Blurs
+  --cm-glass-bg: rgba(255, 255, 255, 0.75);
+  --cm-glass-border: rgba(255, 255, 255, 0.4);
+  --cm-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  --cm-glass-blur: blur(16px);
+  --cm-panel-radius: 20px;
+
+  // Gradients
+  --cm-gradient-primary: linear-gradient(135deg, var(--cm-primary) 0%, var(--cm-primary-light) 100%);
+  --cm-gradient-text: linear-gradient(90deg, var(--cm-primary-dark) 0%, var(--cm-primary) 100%);
 
   // Z-index layers
   --cm-z-map: 1;

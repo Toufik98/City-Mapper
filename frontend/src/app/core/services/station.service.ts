@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ApiService } from './api.service';
 import { Station } from '../models/station.model';
+import { StationConnection } from '../models/connection.model';
 
 interface StationApiResponse {
   id: number;
@@ -11,6 +12,16 @@ interface StationApiResponse {
   address: string;
   latitude: number;
   longitude: number;
+}
+
+interface StationConnectionApiResponse {
+  from_id: number;
+  to_id: number;
+  from_lat: number;
+  from_lon: number;
+  to_lat: number;
+  to_lon: number;
+  line_id: string;
 }
 
 /**
@@ -26,6 +37,23 @@ export class StationService {
   getAll(): Observable<Station[]> {
     return this.api.get<{ stations: StationApiResponse[] }>('/api/stations').pipe(
       map((response) => response.stations.map(this.mapStation))
+    );
+  }
+
+  /**
+   * Fetch all connections to draw metro lines.
+   */
+  getConnections(): Observable<StationConnection[]> {
+    return this.api.get<{ connections: StationConnectionApiResponse[] }>('/api/connections').pipe(
+      map((response) => response.connections.map(c => ({
+        fromId: c.from_id,
+        toId: c.to_id,
+        fromLat: c.from_lat,
+        fromLon: c.from_lon,
+        toLat: c.to_lat,
+        toLon: c.to_lon,
+        lineId: c.line_id
+      })))
     );
   }
 

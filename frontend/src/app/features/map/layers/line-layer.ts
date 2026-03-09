@@ -1,10 +1,10 @@
 import * as L from 'leaflet';
-import { Station } from '../../../core/models/station.model';
+import { StationConnection } from '../../../core/models/connection.model';
 import { AccessibilityService } from '../../../core/services/accessibility.service';
 
 /**
  * Leaflet layer that renders metro line polylines connecting stations.
- * Groups stations by line and draws colored paths.
+ * Draws actual graph edges representing tracks.
  */
 export class LineLayer {
   private readonly layerGroup = L.layerGroup();
@@ -13,35 +13,32 @@ export class LineLayer {
   constructor(private readonly accessibility: AccessibilityService) {}
 
   /**
-   * Render polylines for all metro lines based on station positions.
-   * Requires stations to have valid coordinates and be sorted by position on the line.
+   * Render polylines for all metro lines based on backend connections.
    */
-  setStations(stations: Station[]): void {
+  setConnections(connections: StationConnection[]): void {
     this.clear();
 
-    // Group stations by line
-    const lineGroups = new Map<string, Station[]>();
-    for (const station of stations) {
-      if (station.latitude && station.longitude) {
-        const existing = lineGroups.get(station.lineId) ?? [];
-        existing.push(station);
-        lineGroups.set(station.lineId, existing);
+    // Group connections by line as multi-polylines
+    const lineGroups = new Map<string, L.LatLngExpression[][]>();
+    for (const conn of connections) {
+      if (conn.fromLat && conn.fromLon && conn.toLat && conn.toLon) {
+        const existing = lineGroups.get(conn.lineId) ?? [];
+        existing.push([
+          [conn.fromLat, conn.fromLon],
+          [conn.toLat, conn.toLon]
+        ]);
+        lineGroups.set(conn.lineId, existing);
       }
     }
 
-    // Draw a polyline per line
-    for (const [lineId, lineStations] of lineGroups) {
-      if (lineStations.length < 2) continue;
-
-      const coords: L.LatLngExpression[] = lineStations.map((s) => [
-        s.latitude!,
-        s.longitude!,
-      ]);
+    // Draw a multipolyline per line avoiding spiderwebs
+    for (const [lineId, segments] of lineGroups) {
+      if (segments.length === 0) continue;
 
       const color = this.accessibility.getLineColor(lineId);
       const dashArray = this.accessibility.getDashPattern(lineId);
 
-      const polyline = L.polyline(coords, {
+      const polyline = L.polyline(segments, {
         color,
         weight: 3,
         opacity: 0.7,

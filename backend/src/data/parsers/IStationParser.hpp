@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "../core/graph/Station.hpp"
+#include "../../core/graph/Station.hpp"
 
 namespace city_mapper {
 
@@ -16,14 +16,14 @@ namespace city_mapper {
 /// never on concrete parser implementations.
 class IStationParser {
 public:
-    virtual ~IStationParser() = default;
+  virtual ~IStationParser() = default;
 
-    /// @brief Parses station data from the given file.
-    /// @param filename Path to the data file.
-    /// @return Map of station_id → Station.
-    /// @throws std::runtime_error if the file cannot be read or parsed.
-    [[nodiscard]] virtual std::unordered_map<uint64_t, Station> parse(
-        const std::string& filename) const = 0;
+  /// @brief Parses station data from the given file.
+  /// @param filename Path to the data file.
+  /// @return Map of station_id → Station.
+  /// @throws std::runtime_error if the file cannot be read or parsed.
+  [[nodiscard]] virtual std::unordered_map<uint64_t, Station>
+  parse(const std::string &filename) const = 0;
 };
 
-}  // namespace city_mapper
+} // namespace city_mapper

@@ -26,7 +26,14 @@ logs/
 
 # Conan
 backend/CMakeUserPresets.json
+backend/CMakePresets.json
+backend/*.cmake
+backend/*.sh
+!backend/CMakeLists.txt
 
 # Test
 frontend/coverage/
 frontend/e2e/test-results/
+
+# Data
+data/

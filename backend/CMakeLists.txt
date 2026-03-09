@@ -41,6 +41,7 @@ add_library(city_mapper_core STATIC
     # Parsers
     src/data/parsers/CSVStationParser.cpp
     src/data/parsers/CSVConnectionParser.cpp
+    src/data/parsers/GTFSStopsParser.cpp
 
     # Loaders
     src/data/loaders/GraphLoader.cpp

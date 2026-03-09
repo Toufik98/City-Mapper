@@ -41,12 +41,12 @@ export class RouteService {
         algorithm: algorithm,
       })
       .pipe(
-        map((response) => ({
-          segments: response.route.segments.map(this.mapSegment),
-          totalDurationSeconds: response.route.total_duration_seconds,
-          totalTransfers: response.route.total_transfers,
-          algorithm: response.route.algorithm,
-          computationTimeMs: response.route.computation_time_ms,
+        map((response: any) => ({
+          segments: response.segments.map((s: any) => this.mapSegment(s)),
+          totalDurationSeconds: response.total_duration_seconds,
+          totalTransfers: response.total_transfers,
+          algorithm: response.algorithm,
+          computationTimeMs: response.computation_time_ms,
         }))
       );
   }

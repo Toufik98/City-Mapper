@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../core/graph/Connection.hpp"
+#include "../../core/graph/Connection.hpp"
 
 namespace city_mapper {
 
@@ -16,14 +16,15 @@ namespace city_mapper {
 /// @details Implementations: CSVConnectionParser, GTFSParser (future).
 class IConnectionParser {
 public:
-    virtual ~IConnectionParser() = default;
+  virtual ~IConnectionParser() = default;
 
-    /// @brief Parses connection data from the given file.
-    /// @param filename Path to the data file.
-    /// @return Adjacency list: from_id → {to_id → weight_seconds}.
-    /// @throws std::runtime_error if the file cannot be read or parsed.
-    [[nodiscard]] virtual std::unordered_map<uint64_t, std::unordered_map<uint64_t, uint64_t>>
-    parse(const std::string& filename) const = 0;
+  /// @brief Parses connection data from the given file.
+  /// @param filename Path to the data file.
+  /// @return Adjacency list: from_id → {to_id → weight_seconds}.
+  /// @throws std::runtime_error if the file cannot be read or parsed.
+  [[nodiscard]] virtual std::unordered_map<
+      uint64_t, std::unordered_map<uint64_t, uint64_t>>
+  parse(const std::string &filename) const = 0;
 };
 
-}  // namespace city_mapper
+} // namespace city_mapper

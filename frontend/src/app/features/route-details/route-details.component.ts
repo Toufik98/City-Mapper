@@ -82,8 +82,12 @@ import { clearRoute } from '../../store/route/route.actions';
       width: 380px;
       max-width: calc(100vw - 32px);
       max-height: calc(100vh - 280px);
-      border-radius: var(--cm-radius-lg);
-      box-shadow: var(--cm-shadow-3);
+      border-radius: var(--cm-panel-radius);
+      box-shadow: var(--cm-glass-shadow);
+      background: var(--cm-glass-bg);
+      backdrop-filter: var(--cm-glass-blur);
+      -webkit-backdrop-filter: var(--cm-glass-blur);
+      border: 1px solid var(--cm-glass-border);
       overflow-y: auto;
     }
 
@@ -94,9 +98,12 @@ import { clearRoute } from '../../store/route/route.actions';
       padding: 16px 16px 0;
 
       h3 {
-        font-size: 16px;
-        font-weight: 600;
+        font-size: 18px;
+        font-weight: 700;
         margin: 0;
+        background: var(--cm-gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
     }
 

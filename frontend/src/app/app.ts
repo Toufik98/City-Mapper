@@ -7,13 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SearchPanelComponent } from './features/search/search-panel.component';
 import { RouteDetailsComponent } from './features/route-details/route-details.component';
 import { SettingsPanelComponent } from './features/settings/settings-panel.component';
 import { loadStations } from './store/station/station.actions';
 import { selectCurrentRoute } from './store/route/route.selectors';
-import { selectSidebarOpen, selectDarkMode } from './store/ui/ui.selectors';
+import { selectSidebarOpen, selectDarkMode, selectLanguage } from './store/ui/ui.selectors';
 import { toggleSidebar, toggleDarkMode } from './store/ui/ui.actions';
 import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
 
@@ -43,9 +43,21 @@ export class App implements OnInit, OnDestroy {
   readonly hasRoute = this.store.selectSignal(selectCurrentRoute);
   readonly sidebarOpen = this.store.selectSignal(selectSidebarOpen);
   readonly darkMode = this.store.selectSignal(selectDarkMode);
+  readonly currentLanguage = this.store.selectSignal(selectLanguage);
+  
   showSettings = false;
 
+  constructor(private translate: TranslateService) {}
+
   ngOnInit(): void {
+    // Initialize default language
+    this.translate.setDefaultLang('en');
+    
+    // Subscribe to language changes
+    this.store.select(selectLanguage).pipe(takeUntil(this.destroy$)).subscribe(lang => {
+      this.translate.use(lang);
+    });
+
     this.store.dispatch(loadStations());
     this.keyboard.init();
 

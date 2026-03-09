@@ -16,7 +16,6 @@ import { environment } from '../../../environments/environment';
 import { AccessibilityService } from '../../core/services/accessibility.service';
 import { StationService } from '../../core/services/station.service';
 import { StationLayer } from './layers/station-layer';
-import { LineLayer } from './layers/line-layer';
 import { RouteLayer } from './layers/route-layer';
 import { LegendControl } from './controls/legend-control';
 import { selectAllStations } from '../../store/station/station.selectors';
@@ -91,7 +90,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private map!: L.Map;
   private stationLayer!: StationLayer;
-  private lineLayer!: LineLayer;
   private routeLayer!: RouteLayer;
   private stationMap = new Map<number, Station>();
   private isSelectingDeparture = true;
@@ -145,10 +143,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       (station) => this.onStationClicked(station)
     );
 
-    this.lineLayer = new LineLayer(this.accessibility);
     this.routeLayer = new RouteLayer(this.accessibility);
 
-    this.lineLayer.addTo(this.map);
     this.stationLayer.addTo(this.map);
     this.routeLayer.addTo(this.map);
 
@@ -164,7 +160,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((stations) => {
         stations.forEach((s) => this.stationMap.set(s.id, s));
         this.stationLayer.setStations(stations);
-        this.lineLayer.setStations(stations);
       });
 
     // Render route when computed

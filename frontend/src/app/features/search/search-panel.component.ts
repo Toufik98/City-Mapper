@@ -116,19 +116,29 @@ import {
     .search-card {
       width: 380px;
       max-width: calc(100vw - 32px);
-      border-radius: var(--cm-radius-lg);
-      box-shadow: var(--cm-shadow-3);
+      border-radius: var(--cm-panel-radius);
+      box-shadow: var(--cm-glass-shadow);
+      background: var(--cm-glass-bg);
+      backdrop-filter: var(--cm-glass-blur);
+      -webkit-backdrop-filter: var(--cm-glass-blur);
+      border: 1px solid var(--cm-glass-border);
+      padding: 8px;
     }
 
     .search-title {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--cm-gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .title-icon {
       color: var(--cm-primary);
+      -webkit-text-fill-color: var(--cm-primary);
     }
 
     .search-content {

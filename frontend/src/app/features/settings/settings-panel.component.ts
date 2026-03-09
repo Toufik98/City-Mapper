@@ -66,15 +66,28 @@ import { selectAlgorithm } from '../../store/route/route.selectors';
   `,
   styles: [`
     .settings-card {
-      border-radius: var(--cm-radius-lg);
-      box-shadow: var(--cm-shadow-2);
+      border-radius: var(--cm-panel-radius);
+      box-shadow: var(--cm-glass-shadow);
+      background: var(--cm-glass-bg);
+      backdrop-filter: var(--cm-glass-blur);
+      -webkit-backdrop-filter: var(--cm-glass-blur);
+      border: 1px solid var(--cm-glass-border);
     }
 
     .settings-title {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      background: var(--cm-gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      mat-icon {
+        color: var(--cm-primary);
+        -webkit-text-fill-color: var(--cm-primary);
+      }
     }
 
     .settings-content {
