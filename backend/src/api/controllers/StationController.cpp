@@ -112,8 +112,17 @@ void StationController::search(
   auto results = g_graph->search_stations(query, limit);
 
   Json::Value json_array(Json::arrayValue);
-  for (const auto &station : results) {
-    json_array.append(station_to_json(station));
+  for (const auto &result : results) {
+    Json::Value json = station_to_json(result.station);
+
+    // Add deduplicated lines array
+    Json::Value lines_array(Json::arrayValue);
+    for (const auto &line : result.lines) {
+      lines_array.append(line);
+    }
+    json["lines"] = lines_array;
+
+    json_array.append(json);
   }
 
   Json::Value response;

@@ -10,6 +10,7 @@ export interface Station {
   readonly address: string;
   readonly latitude: number | null;
   readonly longitude: number | null;
+  readonly lines: string[];
 }
 
 /**

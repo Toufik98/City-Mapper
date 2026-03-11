@@ -70,6 +70,12 @@ target_include_directories(city_mapper_server PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+# Provide the project root at compile time so the server can find
+# data files regardless of the working directory.
+target_compile_definitions(city_mapper_server PRIVATE
+    PROJECT_ROOT_DIR="${CMAKE_SOURCE_DIR}/.."
+)
+
 target_link_libraries(city_mapper_server PRIVATE
     city_mapper_core
     Drogon::Drogon

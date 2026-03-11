@@ -1,11 +1,12 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, importProvidersFrom, inject } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { routes } from './app.routes';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
@@ -15,7 +16,6 @@ import { uiReducer, uiFeatureKey } from './store/ui/ui.reducer';
 import { StationEffects } from './store/station/station.effects';
 import { RouteEffects } from './store/route/route.effects';
 import { environment } from '../environments/environment';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,14 +36,12 @@ export const appConfig: ApplicationConfig = {
       logOnly: environment.production,
     }),
 
-    // i18n
+    // i18n — order matters: provideTranslateService registers the NoOp loader,
+    // then provideTranslateHttpLoader overrides it with the HTTP loader.
+    importProvidersFrom(TranslateModule),
+    provideTranslateService({
+      defaultLanguage: environment.defaultLanguage,
+    }),
     provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
-    importProvidersFrom(
-      TranslateModule.forRoot({
-        defaultLanguage: environment.defaultLanguage,
-        isolate: false,
-        extend: true
-      })
-    ),
   ],
 };

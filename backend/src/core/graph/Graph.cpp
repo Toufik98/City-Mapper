@@ -5,6 +5,10 @@
 
 #include <algorithm>
 #include <cctype>
+#include <set>
+#include <unordered_set>
+
+#include "../utils/StringUtils.hpp"
 
 namespace city_mapper {
 
@@ -58,70 +62,96 @@ Graph::get_adjacency() const noexcept {
     return adjacency_;
 }
 
-/// @brief Case-insensitive substring search with prefix-match priority.
-/// @complexity O(n * m) where n = stations, m = max(query.length(), name.length())
-std::vector<Station> Graph::search_stations(const std::string& query, size_t limit) const {
+/// @brief Diacritics-insensitive, case-insensitive search with deduplication.
+/// @details Each unique station name appears only once in results, with all
+///          its metro lines collected into the `lines` field.
+std::vector<SearchResult> Graph::search_stations(const std::string& query, size_t limit) const {
     if (query.empty()) {
         return {};
     }
 
-    // Convert query to lowercase once
-    std::string lower_query;
-    lower_query.reserve(query.size());
-    for (char c : query) {
-        lower_query.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
-    }
+    // Normalize query: strip diacritics + lowercase
+    const std::string norm_query = normalize_for_search(query);
 
-    struct ScoredStation {
-        const Station* station;
-        int score;  // lower = better match
+    // Intermediate: scored match keyed by normalized station name
+    struct ScoredMatch {
+        std::string normalized_name;
+        const Station* station;         // representative station
+        std::set<std::string> line_ids; // ordered set of unique line IDs
+        int score;                      // lower = better
     };
 
-    std::vector<ScoredStation> matches;
-    matches.reserve(64);  // Reasonable pre-allocation
+    // Map from normalized name → scored match
+    std::unordered_map<std::string, ScoredMatch> seen;
 
     for (const auto& [id, station] : stations_) {
-        // Convert station name to lowercase
-        std::string lower_name;
-        lower_name.reserve(station.name.size());
-        for (char c : station.name) {
-            lower_name.push_back(
-                static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
-        }
+        std::string norm_name = normalize_for_search(station.name);
 
         // Check for substring match
-        auto pos = lower_name.find(lower_query);
-        if (pos != std::string::npos) {
-            int score = 0;
-            if (pos == 0) {
-                // Exact prefix match → highest priority
-                score = 0;
-            } else {
-                // Substring match → lower priority, ordered by position
-                score = static_cast<int>(pos) + 1;
-            }
-            // Favor shorter names (more specific matches)
-            score += static_cast<int>(station.name.size()) / 10;
+        auto pos = norm_name.find(norm_query);
+        if (pos == std::string::npos) {
+            continue;
+        }
 
-            matches.push_back({&station, score});
+        // Compute relevance score
+        int score = 0;
+        if (norm_name == norm_query) {
+            // Exact match → highest priority
+            score = 0;
+        } else if (pos == 0) {
+            // Prefix match
+            score = 1;
+        } else {
+            // Substring match → lower priority, ordered by position
+            score = static_cast<int>(pos) + 2;
+        }
+        // Favor shorter names (more specific matches)
+        score += static_cast<int>(station.name.size()) / 10;
+
+        auto it = seen.find(norm_name);
+        if (it != seen.end()) {
+            // Already seen this station name — just add the line ID
+            it->second.line_ids.insert(station.line_id);
+            // Keep best score
+            if (score < it->second.score) {
+                it->second.score = score;
+                it->second.station = &station;
+            }
+        } else {
+            ScoredMatch match;
+            match.normalized_name = norm_name;
+            match.station = &station;
+            match.line_ids.insert(station.line_id);
+            match.score = score;
+            seen.emplace(norm_name, std::move(match));
         }
     }
 
-    // Sort by score ascending (best matches first)
-    std::sort(matches.begin(), matches.end(),
-              [](const ScoredStation& a, const ScoredStation& b) {
-                  return a.score < b.score;
+    // Collect and sort by score
+    std::vector<ScoredMatch*> sorted;
+    sorted.reserve(seen.size());
+    for (auto& [key, match] : seen) {
+        sorted.push_back(&match);
+    }
+    std::sort(sorted.begin(), sorted.end(),
+              [](const ScoredMatch* a, const ScoredMatch* b) {
+                  if (a->score != b->score) return a->score < b->score;
+                  return a->station->name < b->station->name;
               });
 
-    // Collect results up to limit
-    std::vector<Station> results;
-    size_t count = std::min(limit, matches.size());
+    // Build results up to limit
+    std::vector<SearchResult> results;
+    size_t count = std::min(limit, sorted.size());
     results.reserve(count);
     for (size_t i = 0; i < count; ++i) {
-        results.push_back(*matches[i].station);
+        SearchResult r;
+        r.station = *sorted[i]->station;
+        r.lines.assign(sorted[i]->line_ids.begin(), sorted[i]->line_ids.end());
+        results.push_back(std::move(r));
     }
 
     return results;
 }
 
 }  // namespace city_mapper
+

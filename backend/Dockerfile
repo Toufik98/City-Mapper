@@ -59,7 +59,9 @@ WORKDIR /app
 COPY --from=builder /build/build/city_mapper_server .
 
 # Copy data files
-COPY --from=builder /build/../data/ ./data/csv/
+# Copy data files from the build context (project root)
+COPY data/ ./data/
+COPY data/IDFM-gtfs/ ./data/IDFM-gtfs/
 
 # Set ownership
 RUN chown -R citymap:citymap /app
@@ -67,9 +69,11 @@ RUN chown -R citymap:citymap /app
 USER citymap
 
 # Environment defaults
-ENV DATA_PATH=/app/data/csv
+ENV DATA_PATH=/app/data
 ENV STATIONS_FILE=s.csv
 ENV CONNECTIONS_FILE=c.csv
+ENV GTFS_PATH=/app/data/IDFM-gtfs
+ENV GTFS_STOPS_FILE=stops.txt
 ENV HOST=0.0.0.0
 ENV PORT=8080
 ENV CACHE_SIZE=10000

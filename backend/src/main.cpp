@@ -33,11 +33,10 @@ int main() {
   // Load configuration from environment
   auto config = AppConfig::from_env();
 
-  std::cout << "[config] Data path: " << config.data_path << std::endl;
-  std::cout << "[config] Stations:  " << config.stations_file << std::endl;
-  std::cout << "[config] Connections: " << config.connections_file << std::endl;
-  std::cout << "[config] GTFS path: " << config.gtfs_path << std::endl;
-  std::cout << "[config] GTFS stops: " << config.gtfs_stops_file << std::endl;
+  std::cout << "[config] Stations:  " << config.stations_path() << std::endl;
+  std::cout << "[config] Connections: " << config.connections_path()
+            << std::endl;
+  std::cout << "[config] GTFS stops: " << config.gtfs_stops_path() << std::endl;
   std::cout << "[config] Listen:    " << config.host << ":" << config.port
             << std::endl;
   std::cout << "[config] Cache:     " << config.cache_size << " entries"

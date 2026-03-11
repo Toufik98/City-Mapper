@@ -64,9 +64,12 @@ import { selectSearchResults, selectSearching } from '../../store/station/statio
         @for (station of searchResults(); track station.id) {
           <mat-option [value]="station">
             <div class="option-content">
-              <app-metro-line-badge [lineId]="station.lineId" />
+              <div class="option-badges">
+                @for (line of station.lines; track line) {
+                  <app-metro-line-badge [lineId]="line" />
+                }
+              </div>
               <span class="option-name">{{ station.name }}</span>
-              <span class="option-line">{{ station.lineName }}</span>
             </div>
           </mat-option>
         }
@@ -90,18 +93,18 @@ import { selectSearchResults, selectSearching } from '../../store/station/statio
       width: 100%;
     }
 
+    .option-badges {
+      display: flex;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
     .option-name {
       font-weight: 500;
       flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    .option-line {
-      font-size: 12px;
-      color: var(--cm-on-surface-variant);
-      flex-shrink: 0;
     }
   `],
 })

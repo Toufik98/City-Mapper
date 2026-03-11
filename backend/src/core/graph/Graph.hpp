@@ -15,6 +15,12 @@
 
 namespace city_mapper {
 
+/// @brief A deduplicated search result grouping a station with all its metro lines.
+struct SearchResult {
+    Station station;              ///< Representative station data (first match).
+    std::vector<std::string> lines; ///< All line IDs this station belongs to.
+};
+
 /// @brief Weighted directed graph representing the metro network.
 /// @details Stations are nodes, connections are directed weighted edges.
 ///
@@ -60,12 +66,14 @@ public:
     /// @brief Returns the total number of directed connections.
     [[nodiscard]] size_t connection_count() const noexcept;
 
-    /// @brief Searches for stations whose name contains the query (case-insensitive).
-    /// @param query Search string.
-    /// @param limit Maximum number of results.
-    /// @return Vector of matching stations, ordered by relevance (exact prefix match first).
-    [[nodiscard]] std::vector<Station> search_stations(const std::string& query,
-                                                       size_t limit = 10) const;
+    /// @brief Searches for stations with diacritics-insensitive, case-insensitive matching.
+    /// @details Results are deduplicated by station name — each unique physical station
+    ///          appears once with all its line IDs collected.
+    /// @param query Search string (accents optional — 'chatelet' matches 'Châtelet').
+    /// @param limit Maximum number of deduplicated results.
+    /// @return Vector of SearchResult, ordered by relevance (prefix match first).
+    [[nodiscard]] std::vector<SearchResult> search_stations(const std::string& query,
+                                                            size_t limit = 10) const;
 
     /// @brief Returns the raw adjacency list for advanced operations.
     [[nodiscard]] const std::unordered_map<uint64_t, std::vector<WeightedEdge>>&
@@ -81,3 +89,4 @@ private:
 };
 
 }  // namespace city_mapper
+

@@ -12,6 +12,7 @@ interface StationApiResponse {
   address: string;
   latitude: number;
   longitude: number;
+  lines?: string[];
 }
 
 interface StationConnectionApiResponse {
@@ -86,6 +87,7 @@ export class StationService {
       address: s.address,
       latitude: s.latitude || null,
       longitude: s.longitude || null,
+      lines: s.lines ?? [s.line_id],
     };
   }
 }
