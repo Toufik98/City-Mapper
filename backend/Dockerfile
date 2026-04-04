@@ -59,8 +59,8 @@ WORKDIR /app
 # Copy binary
 COPY --from=builder /build/build/city_mapper_server .
 
-# Create data directory (will be volume-mounted on server)
-RUN mkdir -p /app/data && chown -R citymap:citymap /app
+# Create data and logs directories (data will be volume-mounted on server)
+RUN mkdir -p /app/data /app/logs && chown -R citymap:citymap /app
 
 USER citymap
 

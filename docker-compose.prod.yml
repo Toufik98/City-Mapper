@@ -5,38 +5,39 @@
 
 services:
   # ── C++ Backend API ────────────────────────────────────────
-  citymapper-backend:
+  backend:
     image: ghcr.io/toufik98/city-mapper-backend:latest
-    container_name: citymapper-backend
+    container_name: cm-backend
     restart: unless-stopped
     environment:
-      - DATA_PATH=/app/data/csv
+      - DATA_PATH=/app/data
       - STATIONS_FILE=s.csv
       - CONNECTIONS_FILE=c.csv
+      - GTFS_PATH=/app/data/IDFM-gtfs
       - HOST=0.0.0.0
       - PORT=8080
       - CACHE_SIZE=10000
       - THREAD_COUNT=4
     volumes:
-      - ./data:/app/data/csv:ro
+      - ./data:/app/data:ro
     networks:
       - prodataviz_default
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 3s
-      start_period: 5s
+      start_period: 10s
       retries: 3
 
   # ── Angular Frontend ───────────────────────────────────────
-  citymapper-frontend:
+  frontend:
     image: ghcr.io/toufik98/city-mapper-frontend:latest
-    container_name: citymapper-frontend
+    container_name: cm-frontend
     restart: unless-stopped
     networks:
       - prodataviz_default
     depends_on:
-      citymapper-backend:
+      backend:
         condition: service_healthy
 
 networks:
