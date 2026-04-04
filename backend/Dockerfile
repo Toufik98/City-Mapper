@@ -22,7 +22,7 @@ RUN pip3 install --break-system-packages conan && \
 WORKDIR /build
 
 # Copy Conan file first (for layer caching)
-COPY conanfile.txt .
+COPY backend/conanfile.txt .
 
 # Install dependencies
 RUN conan install . --output-folder=build --build=missing \
@@ -30,9 +30,9 @@ RUN conan install . --output-folder=build --build=missing \
     -s compiler.cppstd=20
 
 # Copy source code
-COPY CMakeLists.txt .
-COPY src/ src/
-COPY tests/ tests/
+COPY backend/CMakeLists.txt .
+COPY backend/src/ src/
+COPY backend/tests/ tests/
 
 # Build
 RUN cd build && \
