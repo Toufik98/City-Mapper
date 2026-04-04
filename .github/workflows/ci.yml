@@ -41,7 +41,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./backend
+          context: .
+          file: ./backend/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -74,13 +75,12 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
+          context: .
+          file: ./backend/Dockerfile
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            BASE_HREF=/projects/city-mapper/
-          cache-from: type=registry,ref=${{ env.IMAGE_PREFIX }}-frontend:latest
+          cache-from: type=registry,ref=${{ env.IMAGE_PREFIX }}-backend:latest
           cache-to: type=inline
 
   # ─── Deploy to Production ───
