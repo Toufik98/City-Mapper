@@ -48,6 +48,7 @@ FROM debian:bookworm-slim AS runtime
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libstdc++6 \
     ca-certificates \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
@@ -58,13 +59,8 @@ WORKDIR /app
 # Copy binary
 COPY --from=builder /build/build/city_mapper_server .
 
-# Copy data files
-# Copy data files from the build context (project root)
-COPY data/ ./data/
-COPY data/IDFM-gtfs/ ./data/IDFM-gtfs/
-
-# Set ownership
-RUN chown -R citymap:citymap /app
+# Create data directory (will be volume-mounted on server)
+RUN mkdir -p /app/data && chown -R citymap:citymap /app
 
 USER citymap
 
