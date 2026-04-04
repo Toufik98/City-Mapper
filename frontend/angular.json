@@ -36,6 +36,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/projects/city-mapper/",
               "budgets": [
                 {
                   "type": "initial",

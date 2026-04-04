@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.citymapper.local',
+  apiUrl: '/projects/city-mapper/api',
   defaultLanguage: 'fr',
   cacheSize: 500,
   map: {
